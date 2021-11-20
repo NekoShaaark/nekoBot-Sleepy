@@ -7,6 +7,7 @@ const getFiles = require('./get-files');
 module.exports = (client) => {
     const commands = {}
     const suffix = '.js'
+    const prefix = process.env.PREFIX //%any prefix here%
     const commandFiles = getFiles('./commands', suffix)
     console.log(commandFiles)
 
@@ -23,11 +24,11 @@ module.exports = (client) => {
     console.log(commands)
 
     client.on('messageCreate', (message) => {
-        if(message.author.bot || !message.content.startsWith('!')){ //NEEDS TO FETCH FROM ENV FILE//
+        if(message.author.bot || !message.content.startsWith(prefix)){
             return;
         }
 
-        const args = message.content.slice(1).split(/ +/)
+        const args = message.content.slice(prefix.length).split(/ +/)
         const commandName = args.shift().toLowerCase()
 
         if(!commands[commandName]){
