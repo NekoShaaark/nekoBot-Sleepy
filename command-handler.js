@@ -5,24 +5,23 @@ const getFiles = require('./get-files');
 
 //export
 module.exports = (client) => {
-    const commands = {}
-    const suffix = '.js'
-    const prefix = process.env.PREFIX //%any prefix here%
-    const commandFiles = getFiles('./commands', suffix)
-    console.log(commandFiles)
 
+    //variables
+    const commands = {}
+    const prefix = process.env.PREFIX
+    const commandFiles = getFiles('./commands', '.js')
+
+    //command loop
     for(const command of commandFiles){
         let commandFile = require(command)
         if(commandFile.default) commandFile = commandFile.default
 
-        const split = command.replace(/\\/g, '/').split('/')
-        const commandName = split[split.length - 1].replace(suffix, '')
+        const commandName = commandFile.config.commandName
 
         commands[commandName.toLowerCase()] = commandFile
     }
 
-    console.log(commands)
-
+    //prefix checking
     client.on('messageCreate', (message) => {
         if(message.author.bot || !message.content.startsWith(prefix)){
             return;

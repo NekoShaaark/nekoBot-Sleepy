@@ -4,6 +4,7 @@ const { Intents } = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
+//intents
 const client = new Discord.Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -16,10 +17,21 @@ const client = new Discord.Client({
 client.on('ready', () => {
     console.log("*yaaaawn* Can I go back to sleep?")
 
+    //handler setup
     let handler = require('./command-handler')
     if(handler.default) handler = handler.default
 
-    handler(client)
+    handler(client);
+
+
+    //user presence
+    client.user.setPresence({
+        activities: [{
+            name: 'Shark Simulator',
+            type: 'PLAYING'
+        }],
+        status: 'online'
+    })
 })
 
 
