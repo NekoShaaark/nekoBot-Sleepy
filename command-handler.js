@@ -10,6 +10,7 @@ module.exports = (client) => {
     const commands = {}
     const prefix = process.env.PREFIX
     const commandFiles = getFiles('./commands', '.js')
+    console.log(commandFiles)
 
     //command loop
     for(const command of commandFiles){
@@ -37,7 +38,7 @@ module.exports = (client) => {
         try{
             commands[commandName].callback(message, ...args)
         } catch(error) {
-            console.error(error)
+            console.error('ERROR:', error)
         }
     })
 }
