@@ -12,15 +12,22 @@ module.exports = (client) => {
     const commandFiles = getFiles('./commands', '.js')
     console.log(commandFiles)
 
+
     //command loop
     for(const command of commandFiles){
         let commandFile = require(command)
         if(commandFile.default) commandFile = commandFile.default
+        
+        //config check
+        if(!commandFile.config){
+            console.log('Config object not found')
+            return; }
+        
+        else{
+            const commandName = commandFile.config.commandName
+            commands[commandName.toLowerCase()] = commandFile }
+        }
 
-        const commandName = commandFile.config.commandName
-
-        commands[commandName.toLowerCase()] = commandFile
-    }
 
     //prefix checking
     client.on('messageCreate', (message) => {

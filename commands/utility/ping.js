@@ -1,10 +1,11 @@
 //imports
+//none
 
 
 //export
 module.exports = {
     config: {
-        name: 'ping',
+        name: 'Ping',
         aliases: ['p'],
         category: 'Utility',
         commandName: 'ping',
