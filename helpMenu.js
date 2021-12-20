@@ -7,13 +7,17 @@ const getFiles = require('./get-files');
 module.exports = (message) => {
     
     //variables & commands
-    const actionsCommands = { name: {}, description: {} }
+    const actionCommands = { name: {}, description: {} }
     const miscCommands = { name: {}, description: {} }
     const utilityCommands = { name: {}, description: {} }
     const allCommands = { name: {}, description: {} }
     
-    const helpEmbed = new MessageEmbed()
     const commandFiles = getFiles('./commands', '.js')
+    const messageContent = (message.content).toLowerCase()
+
+    var actions = ""
+    var misc = ""
+    var utility = ""
 
 
     //command loop
@@ -27,8 +31,8 @@ module.exports = (message) => {
 
         //--Actions--//
         if(commandFile.config.category == "Actions"){ 
-            actionsCommands.name[configName] = commandFile
-            actionsCommands.description[configDescription] = commandFile }
+            actionCommands.name[configName] = commandFile
+            actionCommands.description[configDescription] = commandFile }
 
         //--Misc--//
         if(commandFile.config.category == "Misc"){ 
@@ -47,50 +51,67 @@ module.exports = (message) => {
     }
 
 
-    // console.log('ACTIONS:', actionsCommands.name)
-    // console.log('MISC:', miscCommands.name)
-    // console.log('UTILITY:', utilityCommands.name)
-    // console.log('ALL:', allCommands.name)
 
     //array mapping
-    const messageContent = (message.content).toLowerCase()
-    var commandName
-    var commandDescription
+    //--Actions--//
+    action_commandName = Object.keys(actionCommands.name)
+    action_commandDescription = Object.keys(actionCommands.description)
 
+    //--Misc--//
+    misc_commandName = Object.keys(miscCommands.name)
+    misc_commandDescription = Object.keys(miscCommands.description)
+
+    //--Utility--//
+    utility_commandName = Object.keys(utilityCommands.name)
+    utility_commandDescription = Object.keys(utilityCommands.description)
+
+
+    //category loop
+    //--Actions--//
+    for(var i = 0; i < action_commandName.length; i++){ 
+        actions += `**${action_commandName[i]}:** ` + action_commandDescription[i] + "\n" }
+
+    //--Misc--//
+    for(var i = 0; i < misc_commandName.length; i++){ 
+        misc += `**${misc_commandName[i]}:** ` + misc_commandDescription[i] + "\n" }
+
+    //--Utility--//
+    for(var i = 0; i < utility_commandName.length; i++){ 
+        utility += `**${utility_commandName[i]}:** ` + utility_commandDescription[i] + "\n" }
+
+
+    //category args
     //--Actions--//
     if(messageContent.includes("actions")){
-        commandName = Object.keys(actionsCommands.name)
-        commandDescription = Object.keys(actionsCommands.description)}
+        message.channel.send(`
+__**Help Menu - Action Commands**__ \n
+__Actions__
+${actions}`)}
     
     //--Misc--//
     else if(messageContent.includes("misc")){
-        commandName = Object.keys(miscCommands.name)
-        commandDescription = Object.keys(miscCommands.description)}
+        message.channel.send(`
+__**Help Menu - Misc. Commands**__ \n
+__Misc.__
+${misc}`)}
     
     //--Utility--//
     else if(messageContent.includes("utility")){
-        commandName = Object.keys(utilityCommands.name)
-        commandDescription = Object.keys(utilityCommands.description)}
+        categoryName = "Help Menu - Utility Commands"
+        message.channel.send(`
+__**Help Menu - Utility Commands**__ \n
+__Utility__
+${utility}`)}
 
     //--All--//
     else{
-        commandName = Object.keys(allCommands.name)
-        commandDescription = Object.keys(allCommands.description)}
-
-    // console.log('------------')
-    // console.log('NAMES:', commandName)
-    // console.log('DESCRIPTIONS:', commandDescription)
-    // console.log('------------')
-
-    
-    //embed settings
-    helpEmbed
-        .setTitle('Help Menu')
-        .setColor('#1e90ff')
-
-    //embed field(s) loop
-    for(let i = 0; i < commandName.length; i++)
-    { helpEmbed.addField(commandName[i], commandDescription[i], false) }
-
-    message.channel.send({ embeds: [helpEmbed] })
+        message.channel.send(`
+__**Help Menu - All Commands**__ \n
+__Actions__
+${actions}
+__Misc.__
+${misc}
+__Utility__
+${utility}`)
+    }
 }
