@@ -14,6 +14,7 @@ module.exports = (message) => {
     
     const commandFiles = getFiles('./commands', '.js')
     const messageContent = (message.content).toLowerCase()
+    const userContent = message.content.split(' ')
 
     var actions = ""
     var misc = ""
@@ -54,16 +55,19 @@ module.exports = (message) => {
 
     //array mapping
     //--Actions--//
-    action_commandName = Object.keys(actionCommands.name)
-    action_commandDescription = Object.keys(actionCommands.description)
+    let action_commandName = Object.keys(actionCommands.name)
+    let action_commandDescription = Object.keys(actionCommands.description)
 
     //--Misc--//
-    misc_commandName = Object.keys(miscCommands.name)
-    misc_commandDescription = Object.keys(miscCommands.description)
+    let misc_commandName = Object.keys(miscCommands.name)
+    let misc_commandDescription = Object.keys(miscCommands.description)
 
     //--Utility--//
-    utility_commandName = Object.keys(utilityCommands.name)
-    utility_commandDescription = Object.keys(utilityCommands.description)
+    let utility_commandName = Object.keys(utilityCommands.name)
+    let utility_commandDescription = Object.keys(utilityCommands.description)
+
+    //--All--//
+    let all_commandName = Object.keys(allCommands.name)
 
 
     //category loop
@@ -103,9 +107,33 @@ __**Help Menu - Utility Commands**__ \n
 __Utility__
 ${utility}`)}
 
+
+
     //--All--//
     else{
-        message.channel.send(`
+        //if second argument (command name) (shows singular commands)
+        if(userContent[1]){
+            userContent.shift() //remove prefix
+
+            //loop through all commands and output config of command that is given
+            for (var i = 0; i < all_commandName.length; i++){
+                if(userContent.includes(all_commandName[i])){
+                    let command = allCommands.name[all_commandName[i]].config
+
+                    //send "command config" message
+                    message.channel.send(`
+__**Help Menu - ${all_commandName[i]} Command**__ \n
+**Aliases:** ${command.aliases}
+**Category:** ${command.category}
+**Description:** ${command.description}`)
+                }
+            }
+        }
+
+
+        //if no arguments (shows all commands)
+        else{
+            message.channel.send(`
 __**Help Menu - All Commands**__ \n
 __Actions__
 ${actions}
@@ -113,5 +141,6 @@ __Misc.__
 ${misc}
 __Utility__
 ${utility}`)
+        }
     }
 }
