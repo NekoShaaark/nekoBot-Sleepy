@@ -23,9 +23,12 @@ module.exports = (client) => {
             console.log('Config object not found')
             return; }
         
+        //register commandName and aliases to commandFile(s)
         else{
             const commandName = commandFile.config.commandName
-            commands[commandName.toLowerCase()] = commandFile }
+            const commandAliases = commandFile.config.aliases
+            commands[commandName.toLowerCase()] = commandFile
+            commands[commandAliases] = commandFile }
         }
 
 
