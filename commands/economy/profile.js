@@ -7,7 +7,7 @@ const Discord = require('discord.js')
 module.exports = {
     config: {
         name: 'Profile',
-        aliases: [''],
+        aliases: ['p'],
         category: 'Economy',
         commandName: 'profile',
         description: "Shows the user's Profile (if pings a user, will show their Profile)",
@@ -25,6 +25,9 @@ module.exports = {
 
         const guildId = message.guild.id
         const userId = target.id
+
+        //beginning message
+        const profileMessage = await message.channel.send('Fetching all da cookies, pwease wait a sec~');
 
 
         //values
@@ -47,7 +50,8 @@ module.exports = {
                 {name: 'Equipped Fishing Rod :fishing_pole_and_fish:', value: `${rodEquipped}`})
             .setFooter({ text: `User ID: ${userId}`})
         
-        message.channel.send({ embeds: [profileEmbed] })
+        //send embed (edit message)
+        profileMessage.edit({ content: ' ', embeds: [profileEmbed] })
 
     }
 }

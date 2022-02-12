@@ -52,7 +52,7 @@ module.exports = {
         //embed for pat
         const patEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor(`${userUsername} gives ${userMentioned} ${patInfo.endings[patEndingNum]}`, userAvatar)
+            .setAuthor({ name: `${userUsername} gives ${userMentioned} ${patInfo.endings[patEndingNum]}`, iconURL: userAvatar })
             .setImage(patInfo.links[patLinkNum])
 
         message.channel.send({ embeds: [patEmbed] })

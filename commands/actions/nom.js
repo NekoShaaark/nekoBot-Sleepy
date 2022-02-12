@@ -52,7 +52,7 @@ module.exports = {
         //embed for nom
         const nomEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor(`${userUsername} noms ${userMentioned} ${nomInfo.endings[nomEndingNum]}`, userAvatar)
+            .setAuthor({ name: `${userUsername} noms ${userMentioned} ${nomInfo.endings[nomEndingNum]}`, iconURL: userAvatar })
             .setImage(nomInfo.links[nomLinkNum])
 
         message.channel.send({ embeds: [nomEmbed] })

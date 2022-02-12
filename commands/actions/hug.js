@@ -52,7 +52,7 @@ module.exports = {
         //embed for hug
         const hugEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor(`${userUsername} hugs ${userMentioned} ${hugInfo.endings[hugEndingNum]}`, userAvatar)
+            .setAuthor({ name: `${userUsername} hugs ${userMentioned} ${hugInfo.endings[hugEndingNum]}`, iconURL: userAvatar })
             .setImage(hugInfo.links[hugLinkNum])
 
         message.channel.send({ embeds: [hugEmbed] })
