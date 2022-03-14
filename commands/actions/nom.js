@@ -1,6 +1,6 @@
 //imports
 const Discord = require('discord.js');
-const nomInfo = require('../../jsonFolder/nom-command.json');
+const nomInfo = require('../../jsonFolder/actions/nom-info.json');
 
 
 //export
@@ -52,7 +52,7 @@ module.exports = {
         //embed for nom
         const nomEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor({ name: `${userUsername} noms ${userMentioned} ${nomInfo.endings[nomEndingNum]}`, iconURL: userAvatar })
+            .setAuthor({ name: `${userUsername} noms ${userMentioned}! ${nomInfo.endings[nomEndingNum]}`, iconURL: userAvatar })
             .setImage(nomInfo.links[nomLinkNum])
 
         message.channel.send({ embeds: [nomEmbed] })

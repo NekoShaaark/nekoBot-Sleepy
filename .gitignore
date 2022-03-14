@@ -1,3 +1,4 @@
 node_modules
 .env
 credentials.json
+jsonFolder/aniguess/@cleanslate-info.json

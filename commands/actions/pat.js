@@ -1,6 +1,6 @@
 //imports
 const Discord = require('discord.js');
-const patInfo = require('../../jsonFolder/pat-command.json');
+const patInfo = require('../../jsonFolder/actions/pat-info.json');
 
 
 //export
@@ -52,7 +52,7 @@ module.exports = {
         //embed for pat
         const patEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor({ name: `${userUsername} gives ${userMentioned} ${patInfo.endings[patEndingNum]}`, iconURL: userAvatar })
+            .setAuthor({ name: `${userUsername} gives ${userMentioned} a pat! ${patInfo.endings[patEndingNum]}`, iconURL: userAvatar })
             .setImage(patInfo.links[patLinkNum])
 
         message.channel.send({ embeds: [patEmbed] })

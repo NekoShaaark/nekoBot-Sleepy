@@ -8,9 +8,10 @@ module.exports = async() => {
     //established connection and options
     mongoose.connect(process.env.MONGODB_SRV, {
         useNewUrlParser: true,
-        useUnifiedTopology: true })
+        useUnifiedTopology: true,
+        useFindAndModify: false })
 
-    .then(() => {console.log('Connection to Project_nekoBot established.')})
+    .then(() => {console.log('--Connection to Project_nekoBot established--')})
     .catch((err) => {console.log(err)});
     return mongoose;
 }

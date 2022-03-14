@@ -1,6 +1,6 @@
 //imports
 const Discord = require('discord.js');
-const hugInfo = require('../../jsonFolder/hug-command.json');
+const hugInfo = require('../../jsonFolder/actions/hug-info.json');
 
 
 //export
@@ -52,7 +52,7 @@ module.exports = {
         //embed for hug
         const hugEmbed = new Discord.MessageEmbed()
             .setColor('#0F52A3')
-            .setAuthor({ name: `${userUsername} hugs ${userMentioned} ${hugInfo.endings[hugEndingNum]}`, iconURL: userAvatar })
+            .setAuthor({ name: `${userUsername} hugs ${userMentioned}! ${hugInfo.endings[hugEndingNum]}`, iconURL: userAvatar })
             .setImage(hugInfo.links[hugLinkNum])
 
         message.channel.send({ embeds: [hugEmbed] })

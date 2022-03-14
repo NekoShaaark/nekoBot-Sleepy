@@ -1,6 +1,7 @@
 //imports
 const mongo = require('../mongo')
 const userSchema = require('../schemas/userSchema')
+const user = require('./user')
 
 
 
@@ -20,13 +21,15 @@ module.exports.addCurrency = async (guildId, userId, coinAmount, cookieAmount) =
                 { upsert: true, new: true })
                 console.log('RESULT:', result)
 
-            //return data
+                
+            //return data and reset cache
+            user.resetCache()
             return result.profile.currency }
 
         //close connection to database
         finally{
             mongoose.connection.close()
-            .then(() => {console.log("Connection to Project_nekoBot closed.")})
+            .then(() => {console.log("--Connection to Project_nekoBot closed--")})
         }
     })
 }

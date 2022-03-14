@@ -4,7 +4,13 @@ const userSchema = require('../schemas/userSchema')
 
 
 //cache
-const profileCache = {}
+let profileCache = {}
+
+
+//ANCHOR reset cache
+module.exports.resetCache = async() => {
+    profileCache = {}
+    console.log('userProfile cache reset') }
 
 
 
@@ -78,8 +84,7 @@ module.exports.getProfile = async (guildId, userId) => {
             else{
                 console.log('Inserting a document')
                 await new userSchema({ guildId, userId, profile })
-                .save() 
-            }
+                .save() }
 
             
             //cache and return data
@@ -89,7 +94,7 @@ module.exports.getProfile = async (guildId, userId) => {
         //close connection to database
         finally{
             mongoose.connection.close()
-            .then(() => {console.log("Connection to Project_nekoBot closed.")})
+            .then(() => {console.log("--Connection to Project_nekoBot closed--")})
         }
     })
 }

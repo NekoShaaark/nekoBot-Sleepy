@@ -1,6 +1,7 @@
 //imports
 const mongo = require('../mongo')
 const userSchema = require('../schemas/userSchema')
+const user = require('./user')
 
 
 
@@ -29,7 +30,7 @@ module.exports.addFish = async (guildId, userId, commonFishCaught, rareFishCaugh
         //close connection to database
         finally{
             mongoose.connection.close()
-            .then(() => {console.log("Connection to Project_nekoBot closed.")})
+            .then(() => {console.log("--Connection to Project_nekoBot closed--")})
         }
     })
 }
@@ -59,13 +60,14 @@ module.exports.equipRod = async (guildId, userId, rodRarity) => {
                 { upsert: true, new: true })
                 console.log('RESULT:', result)
 
-                //return data
+                //return data and reset cache
+                user.resetCache()
                 return result.profile.inventory.rods.equippedRod }
 
             //close connection to database
             finally{
                 mongoose.connection.close()
-                .then(() => {console.log("Connection to Project_nekoBot closed.")})
+                .then(() => {console.log("--Connection to Project_nekoBot closed--")})
         }
     })
 }
@@ -99,7 +101,7 @@ module.exports.obtainRod = async (guildId, userId, [rareObtained, epicObtained, 
         //close connection to database
         finally{
             mongoose.connection.close()
-            .then(() => {console.log("Connection to Project_nekoBot closed.")})
+            .then(() => {console.log("--Connection to Project_nekoBot closed--")})
         }
     })
 }
