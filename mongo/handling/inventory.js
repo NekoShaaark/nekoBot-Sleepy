@@ -43,11 +43,9 @@ module.exports.addFish = async (guildId, userId, commonFishCaught, rareFishCaugh
 module.exports.equipRod = async (guildId, userId, rodRarity) => {
     return await mongo().then(async (mongoose) => {
 
-        //rarity decider(?)
-        var equippedRarity
-        if(rodRarity == "common"){ equippedRarity = "common" }
-        else if(rodRarity == "rare"){ equippedRarity = "rare" }
-        else if(rodRarity == "epic"){ equippedRarity = "epic" }
+        //rarity checker
+        const equippedRarity = rodRarity.toLowerCase()
+        
 
         //findOneAndUpdate()
         try{
@@ -74,13 +72,21 @@ module.exports.equipRod = async (guildId, userId, rodRarity) => {
 
 
 //ANCHOR obtain rod
-module.exports.obtainRod = async (guildId, userId, [rareObtained, epicObtained, ultraObtained]) => {
+module.exports.obtainRod = async (guildId, userId, rodRarity) => {
     return await mongo().then(async (mongoose) => {
 
-        //rarity decider(?)
-        if(rareObtained == true){ rareObtained = true }
-        if(epicObtained == true){ epicObtained = true }
-        if(ultraObtained == true){ ultraObtained = true }
+        //defaults
+        var rareObtained = false
+        var epicObtained = false
+        var ultraObtained = false
+
+        //rarity checker
+        switch(rodRarity){
+            case "rare": rareObtained = true; break
+            case "epic": epicObtained = true; break
+            case "ultra": ultraObtained = true; break
+        }
+        
 
         //findOneAndUpdate()
         try{
@@ -95,7 +101,8 @@ module.exports.obtainRod = async (guildId, userId, [rareObtained, epicObtained, 
                 { upsert: true, new: true })
                 console.log('RESULT:', result)
 
-            //return data
+            //return data and reset cache
+            user.resetCache()
             return result.profile.inventory.rods }
 
         //close connection to database
